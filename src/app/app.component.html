@@ -1,0 +1,117 @@
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <h1>Meme Coin Project</h1>
+      <!-- <span class="fill"></span> -->
+      <img src="../assets/img/just-coin.png" alt="chinchilla coin logo" />
+    </div>
+    <div class="body">
+      <div class="coin-info" *ngIf="infoReady; else loading">
+        <p class="data-info">
+          <strong>Coin: </strong> <span>{{ ethereumService.tokenName }}</span>
+        </p>
+        <p class="data-info">
+          <strong>Ticker: </strong>
+          <span>{{ ethereumService.tokenSymbol }}</span>
+        </p>
+        <p class="data-info">
+          <strong>Total Supply: </strong>
+          <span>{{ ethereumService.tokenTotalSupply }}</span>
+        </p>
+      </div>
+      <ng-template #loading>
+        <mat-progress-bar
+          mode="indeterminate"
+          color="accent"
+        ></mat-progress-bar>
+      </ng-template>
+
+      <div class="form-container">
+        <mat-form-field appearance="outline" class="first-layer">
+          <input
+            matInput
+            [formControl]="addressControl"
+            type="text"
+            placeholder="Wallet Address"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="second-layer">
+          <input
+            matInput
+            [formControl]="transferAmountControl"
+            type="number"
+            step="0.0001"
+            min="0"
+            max="10"
+            placeholder="0.0000 CHC (max 10 CHC per transaction)"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="transfer()">
+          TRANSFER TOKENS
+        </button>
+      </div>
+
+      <div class="info">
+        <p>
+          <strong>Contract Address:</strong>
+          {{ ethereumService.contractAddress }}
+        </p>
+        <p>
+          <strong>Token Owner Address:</strong>
+          {{ ethereumService.tokenOwnerAddress }}
+        </p>
+        <p *ngIf="isWalletConnected">
+          <strong>Your Wallet Address:</strong>
+          {{ ethereumService.yourWalletAddress }}
+        </p>
+        <div class="wallet" *ngIf="isWalletConnected">
+          <span>Wallet Connected 🔒</span>
+        </div>
+      </div>
+
+      <div class="admin-panel" *ngIf="ethereumService.isTokenOwner">
+        <div class="title">
+          <h2>Token Admin Panel</h2>
+        </div>
+        <div class="body">
+          <div class="form-container">
+            <mat-form-field appearance="outline" class="first-layer">
+              <input
+                matInput
+                [formControl]="burnTokensControl"
+                type="number"
+                step="0.0001"
+                min="0"
+                [max]="ethereumService.tokenTotalSupply"
+                placeholder="0.0000 CHC"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="burnTokens()">
+              BURN TOKENS
+            </button>
+          </div>
+
+          <div class="form-container">
+            <mat-form-field appearance="outline" class="first-layer">
+              <input
+                matInput
+                [formControl]="mintTokensControl"
+                type="number"
+                step="0.0001"
+                min="0"
+                placeholder="0.0000 CHC"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="mintTokens()">
+              MINT TOKENS
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
