@@ -26,11 +26,12 @@ export class AppComponent {
     this.ethereumService.checkIfWalletIsConnected().then((res) => {
       if (res) {
         this.isWalletConnected = true;
-      }
-    });
-    this.ethereumService.getTokenInfo().then((res) => {
-      if (res) {
-        this.infoReady = true;
+
+        this.ethereumService.getTokenInfo().then((res) => {
+          if (res) {
+            this.infoReady = true;
+          }
+        });
       }
     });
   }
